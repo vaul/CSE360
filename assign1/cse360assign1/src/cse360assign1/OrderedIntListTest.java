@@ -49,7 +49,7 @@ public class OrderedIntListTest {
 		OrderedIntList oList = new OrderedIntList();
 		int startValue = 4;
 		
-		for (int value = 0; value < 11; value++)
+		for (int value = 0; value < 12; value++)
 		{
 			oList.insert(startValue + value);
 		}

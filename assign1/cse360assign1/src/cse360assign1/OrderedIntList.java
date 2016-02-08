@@ -22,35 +22,45 @@ public class OrderedIntList
 	 */
 	public void insert(int value) 
 	{
-		int insertIndex = 0;
+		int insertIndex = getInsertIndex(value);
 		
-		//find insert location
+		if (insertIndex > 9 || data[insertIndex] == value)
+		{
+			//do nothing if insertIndex is larger than array 
+			// or if value is not unique
+			return;
+		}
+		else if (count < 10)
+		{
+			//shift memory only for what is in the array
+			shift(insertIndex, count);
+						
+			//increment count
+			count = count + 1;
+		}
+		else if(count == 10)
+		{
+			//shift all memory
+			shift(insertIndex, 9);
+		}
+
+		//store data
+		data[insertIndex] = value;
+	}
+
+	private int getInsertIndex(int value) {
+		int insertIndex = 0;
 		for (int index = 0; index < count && value > data[index]; index++)
 		{
 			insertIndex++;
 		}
-		
-		//do nothing if insertIndex is larger than array or if not unique
-		if (insertIndex < 10 && data[insertIndex] != value)
+		return insertIndex;
+	}
+
+	private void shift(int insertIndex, int count) {
+		for (int index = count; index > insertIndex; index--)
 		{
-			//shift memory
-			int startIndex = count > 9 ? 9 : count; //the largest index to shift is 9
-			for (int index = startIndex; index > insertIndex; index--)
-			{
-				data[index] = data[index - 1];
-			}
-			
-			//store data
-			data[insertIndex] = value;
-			
-			//increment count
-			count = count + 1;
-			
-			//count can never be more than 10;
-			if (count > 10)
-			{
-				count = 10;
-			}
+			data[index] = data[index - 1];
 		}
 	}
 	
@@ -66,7 +76,7 @@ public class OrderedIntList
 			}
 			else if ((index + 1) % 5 == 0)
 			{
-				System.out.println();
+				System.out.print("\r\n");
 			}
 			else if (index < count)
 			{
